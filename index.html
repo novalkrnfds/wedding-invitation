@@ -84,7 +84,7 @@
 		</div>
 	</nav>
 
-	<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(http://vivahpatrika.in/wp-content/uploads/2017/01/Bride-Groom-Hands.jpg);" data-stellar-background-ratio="0.5">
+	<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url('images/bg.jpg');" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
@@ -94,7 +94,7 @@
 							<h1>Annisa &amp; Nouval</h1>
 							<h2>We Are Getting Married</h2>
 							<div class="simply-countdown simply-countdown-one"></div>
-							<p><a href="#" class="btn btn-default btn-sm">Save the date</a></p>
+							<p><a href="#" onclick="saveDeDate()" class="btn btn-default btn-sm">Save the date</a></p>
 						</div>
 					</div>
 				</div>
@@ -338,8 +338,10 @@
 	<!-- Main -->
 	<script src="js/main.js"></script>
 
+	<script src="https://apis.google.com/js/api.js"></script>
+
 	<script>
-    var d = new Date("2018-11-18 00:00:00");
+    var d = new Date("2018-11-18 00:00:00+0700");
 
     // default example
     simplyCountdown('.simply-countdown-one', {
@@ -355,6 +357,49 @@
         day: d.getDate(),
         enableUtc: false
     });
+
+    
+    function saveDeDate() {
+    	var event = {
+		  'summary': 'Wedding Annisa & Nouval',
+		  'location': 'Jl. Kerinci 7 Blok Ad 2 No.49,Jatimulya,Tambun Sel.,Bekasi,Jawa Barat 17510',
+		  'description': 'We invited you to celebrate our wedding, please save the date guys!',
+		  'start': {
+		    'dateTime': '2018-11-18T08:00:00+07:00',
+		    'timeZone': 'Asia/Jakarta'
+		  },
+		  'end': {
+		    'dateTime': '2018-11-18T17:00:00+07:00',
+		    'timeZone': 'Asia/Jakarta'
+		  },
+		  'recurrence': [
+		    'RRULE:FREQ=DAILY;COUNT=2'
+		  ],
+		  // 'attendees': [
+		  //   {'email': 'lpage@example.com'},
+		  //   {'email': 'sbrin@example.com'}
+		  // ],
+		  'reminders': {
+		    'useDefault': false,
+		    'overrides': [
+		      {'method': 'email', 'minutes': 24 * 60},
+		      {'method': 'popup', 'minutes': 10}
+		    ]
+		  }
+		};
+
+		var request = gapi.client.calendar.events.insert({
+		  'calendarId': 'primary',
+		  'resource': event
+		});
+
+		console.log(request)
+
+		request.execute(function(event) {
+		  appendPre('Event created: ' + event.htmlLink);
+		});
+
+    }
 </script>
 
 	</body>
